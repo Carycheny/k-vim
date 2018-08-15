@@ -149,14 +149,16 @@ set scrolloff=3
 " set winwidth=79
 
 " 命令行（在状态行下）的高度，默认为1，这里是2
-"" set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
+"set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%=%k[%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}]\ %-14.(%l,%c%V%)\ %P
 " Always show the status line - use 2 lines for the status bar
-"" set laststatus=2
+set laststatus=2
 
 " 显示行号
 set number
 " 取消换行
-set nowrap
+"set nowrap
+set wrap
 
 " 括号配对情况, 跳转并高亮一下匹配的括号
 set showmatch
@@ -315,9 +317,9 @@ autocmd CmdwinEnter * nnoremap <buffer> <CR> <CR>
 "" inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 
 " 打开自动定位到最后编辑的位置, 需要确认 .viminfo 当前用户可写
-"" if has("autocmd")
-""   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-"" endif
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
 "==========================================
 " HotKey Settings  自定义快捷键设置
@@ -659,6 +661,68 @@ set t_Co=256
 
 colorscheme solarized
 " colorscheme molokai
+
+
+" Settings for tagslist
+" 让taglist窗口出现在Vim的左边边
+let Tlist_Use_Right_Window = 1
+
+" 当同时显示多个文件中的tag时，设置为1，可使taglist只显示当前文件tag，其它文件的tag都被折叠起来。
+let Tlist_File_Fold_Auto_Close = 1
+
+" 只显示一个文件中的tag，默认为显示多个
+let Tlist_Show_One_File = 1
+
+" Tag的排序规则，以名字排序。默认是以在文件中出现的顺序排序
+let Tlist_Sort_Type ='name'
+
+" Taglist窗口打开时，立刻切换为有焦点状态
+let Tlist_GainFocus_On_ToggleOpen = 1
+
+" 如果taglist窗口是最后一个窗口，则退出vim
+let Tlist_Exit_OnlyWindow = 1
+
+" 设置窗体宽度为32，可以根据自己喜好设置
+let Tlist_WinWidth = 32
+" 这里比较重要了，设置ctags的位置，不是指向MacOS自带的那个，而是我们用homebrew安装的那个
+let Tlist_Ctags_Cmd ='/usr/bin/ctags'
+
+" 热键设置，我设置成Leader+t来呼出和关闭Taglist
+"map tl :TlistToggle<CR>
+
+"=============Tagbar=====================
+"关闭排序,即按标签本身在文件中的位置排序
+let g:tagbar_sort = 0
+
+" 呼出和关闭TagbarToggle
+map tl :TagbarToggle<CR>
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
 
 
 " 设置标记一列的背景颜色和数字一行颜色一致

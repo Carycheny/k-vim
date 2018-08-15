@@ -149,6 +149,9 @@ Plug 'vim-ctrlspace/vim-ctrlspace'
 " tagbar
 Plug 'majutsushi/tagbar'
 
+" Taglist
+Plug 'taglist.vim'
+
 " text object
 " 支持自定义文本对象
 Plug 'kana/vim-textobj-user'
